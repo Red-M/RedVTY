@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "RedVTY"
+version = "0.0.1"
+description = "TBA"
+
+license = "Linux GPLv2"
+
+authors = [
+    "Red_M <redvty@red-m.net>"
+]
+
+readme = 'README.md'  # Markdown files are supported
+
+repository = "https://bitbucket.org/Red_M/RedVTY"
+homepage = "https://bitbucket.org/Red_M/RedVTY"
+
+keywords = ['automation', 'SSH', 'expect', 'paramiko', 'SFTP', 'ssh', 'sftp', 'cli']
+
+[tool.poetry.dependencies]
+python = ">2.8"  # Compatible python versions must be declared here
+paramiko_expect = "*"
+paramiko = "*"
+
