@@ -35,7 +35,9 @@ doc_deps = [
 ]
 
 test_deps = [
-    'redexpect[tests]',
+    'asyncssh',
+    'paramiko',
+    'sftpserver',
     'coveralls',
     'pytest-cov'
 ]
