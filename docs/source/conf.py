@@ -26,7 +26,7 @@ author = u'Red_M'
 # The short X.Y version
 version = redvty.VERSION
 # The full version, including alpha/beta/rc tags
-release = version+' stable'
+release = version+' alpha'
 
 
 # -- General configuration ---------------------------------------------------
