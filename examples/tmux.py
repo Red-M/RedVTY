@@ -18,6 +18,10 @@
 import getpass
 import redvty
 
+def tmux_command(rt,command):
+    rt.sendline_raw('\002') # This needs to be your bind key for tmux, I use ctrl+b.
+    rt.sendline_raw(command)
+
 def main():
     username = input('Username: ')
     hostname = input('Hostname: ')
@@ -25,11 +29,21 @@ def main():
 
     rt = redvty.RedVTY()
     rt.login(hostname,username=username,password=passwd,allow_agent=True)
+
     hostname = rt.command('hostname',remove_newline=True)
     rt.sendline('tmux -u a || tmux -u')
-    expect = rt.prompt('"'+hostname+'"')
+
+    rt.prompt('"'+hostname+'"')
+
+    tmux_command(rt,'"')
+
+    rt.prompt('"'+hostname+'"')
     print('\n'.join(rt.screen.display))
-    rt.command('exit')
+
+    tmux_command(rt,':')
+    rt.expect(':')
+    rt.command('kill-session')
+
     rt.exit()
 
 
