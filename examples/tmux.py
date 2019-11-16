@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # RedVTY
 # Copyright (C) 2019  Red_M ( http://bitbucket.com/Red_M )
 
@@ -14,26 +15,23 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+import getpass
+import redvty
 
-import pyte
-import multiprocessing
-import redexpect
+def main():
+    username = input('Username: ')
+    hostname = input('Hostname: ')
+    passwd = getpass.getpass()
 
-
-class RedVTY(redexpect.RedExpect):
-    def __init__(self, *args, columns=80, rows=24, **kwargs):
-        super().__init__(*args,**kwargs)
-        self.columns = columns
-        self.rows = rows
-        self._stream_lock = multiprocessing.Lock()
-        self.__stream_init__()
-
-    def __stream_init__(self):
-        self.screen = pyte.Screen(self.columns,self.rows)
-        self.stream = pyte.ByteStream(self.screen)
-
-    def out_feed(self,data):
-        with self._stream_lock:
-            self.stream.feed(data)
+    rt = redvty.RedVTY()
+    rt.login(hostname,username=username,password=passwd,allow_agent=True)
+    hostname = rt.command('hostname',remove_newline=True)
+    rt.sendline('tmux -u a || tmux -u')
+    expect = rt.prompt('"'+hostname+'"')
+    print('\n'.join(rt.screen.display))
+    rt.command('exit')
+    rt.exit()
 
 
+if __name__=='__main__':
+    main()
